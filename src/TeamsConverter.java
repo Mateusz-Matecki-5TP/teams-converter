@@ -1,6 +1,7 @@
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.text.Collator;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -52,10 +53,12 @@ public class TeamsConverter {
     }
 
     public List<Participant> readParticipants() {
+        String normalizedPath = Normalizer.normalize(this.inputFile, Normalizer.Form.NFC);
+
         try (
             BufferedReader reader = new BufferedReader(
                 new InputStreamReader(
-                    new FileInputStream(this.inputFile),
+                    new FileInputStream(normalizedPath),
                     StandardCharsets.UTF_16LE
                 )
             )
